@@ -62,4 +62,29 @@ public class MainTest {
     public void createStudentFails() {
         assertEquals(0, service.saveStudent(1, "Name", 937));
     }
+
+    @Test
+    public void createStudentFailsInvalidId() {
+        assertEquals(1, service.saveStudent(-1, "Name", 937));
+    }
+
+    @Test
+    public void createStudentFailsInvalidNullName() {
+        assertEquals(1, service.saveStudent(5, null, 937));
+    }
+
+    @Test
+    public void createStudentFailsInvalidEmptyName() {
+        assertEquals(1, service.saveStudent(5, "", 937));
+    }
+
+    @Test
+    public void createStudentFailsInvalidBigGroup() {
+        assertEquals(1, service.saveStudent(5, "Nume", 1000));
+    }
+
+    @Test
+    public void createStudentFailsInvalidSmallGroup() {
+        assertEquals(1, service.saveStudent(5, "Nume", 100));
+    }
 }
