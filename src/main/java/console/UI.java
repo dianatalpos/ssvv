@@ -54,6 +54,7 @@ public class UI {
 
         System.out.println("Introduceti ID-ul studentului: ");
         int id = scanner.nextInt();
+        scanner.nextLine();
 
         System.out.println("Introduceti numele studentului: ");
         String nume = scanner.nextLine();

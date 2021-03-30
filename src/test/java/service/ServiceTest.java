@@ -1,9 +1,13 @@
 package service;
 
-import domain.Student;
+import domain.Tema;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 import repository.NotaXMLRepository;
 import repository.StudentXMLRepository;
 import repository.TemaXMLRepository;
@@ -11,41 +15,46 @@ import validation.NotaValidator;
 import validation.StudentValidator;
 import validation.TemaValidator;
 
+import static org.mockito.Matchers.any;
+
+@RunWith(MockitoJUnitRunner.class)
 public class ServiceTest {
 
+    @Mock
     private StudentXMLRepository studentXmlRepo;
+    @Mock
     private StudentValidator studentValidator;
+    @Mock
     private NotaXMLRepository notaXmlRepo;
+    @Mock
     private NotaValidator notaValidator;
+    @Mock
     private TemaXMLRepository temaXmlRepo;
+    @Mock
     private TemaValidator temaValidator;
     private Service service;
 
     @Before
     public void setup(){
-        studentValidator = new StudentValidator();
-        temaValidator = new TemaValidator();
-        notaValidator = new NotaValidator();
-
-        studentXmlRepo = new StudentXMLRepository(studentValidator, "studentitest.xml");
-        temaXmlRepo = new TemaXMLRepository(temaValidator, "temetest.xml");
-        notaXmlRepo = new NotaXMLRepository(notaValidator, "notatest.xml");
         service = new Service(studentXmlRepo, temaXmlRepo, notaXmlRepo);
     }
 
     @Test
-    public void testSaveStudent(){
-        this.service.deleteStudent(1);
+    public void testSaveTemaIfFails(){
+        Mockito.when(temaXmlRepo.save(any())).thenReturn(null);
 
-        int response = this.service.saveStudent(1, "nume", 935);
+        int response = this.service.saveTema(1, "nume", 5, 2);
 
         Assert.assertEquals(1, response);
     }
 
     @Test
-    public void testSaveStudentIfFails(){
-        int response = this.service.saveStudent(-1, "", 1);
+    public void testSaveTema(){
+        Tema tema = Mockito.mock(Tema.class);
+        Mockito.when(temaXmlRepo.save(any())).thenReturn(tema);
 
-        Assert.assertEquals(1, response);
+        int response = this.service.saveTema(2, "dscds", 1, 6);
+
+        Assert.assertEquals(0, response);
     }
 }
