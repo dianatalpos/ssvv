@@ -57,4 +57,49 @@ public class ServiceTest {
 
         Assert.assertEquals(0, response);
     }
+
+    @Test
+    public void testSaveTemaIfIdInvalid(){
+        Mockito.when(temaXmlRepo.save(any())).thenReturn(null);
+
+        int response = this.service.saveTema(-1, "description", 5, 2);
+
+        Assert.assertEquals(1, response);
+    }
+
+    @Test
+    public void testSaveTemaIfDescriptionInvalid(){
+        Mockito.when(temaXmlRepo.save(any())).thenReturn(null);
+
+        int response = this.service.saveTema(3, "", 5, 2);
+
+        Assert.assertEquals(1, response);
+    }
+
+    @Test
+    public void testSaveTemaIfDeadlineAndStartlineInvalid(){
+        Mockito.when(temaXmlRepo.save(any())).thenReturn(null);
+
+        int response = this.service.saveTema(4, "description", 4, 5);
+
+        Assert.assertEquals(1, response);
+    }
+
+    @Test
+    public void testSaveTemaIfStartlineInvalid(){
+        Mockito.when(temaXmlRepo.save(any())).thenReturn(null);
+
+        int response = this.service.saveTema(4, "description", 4, 0);
+
+        Assert.assertEquals(1, response);
+    }
+
+    @Test
+    public void testSaveTemaIfDeadlineInvalid(){
+        Mockito.when(temaXmlRepo.save(any())).thenReturn(null);
+
+        int response = this.service.saveTema(4, "description", 15, 2);
+
+        Assert.assertEquals(1, response);
+    }
 }
